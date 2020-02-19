@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">KSquared</string>
+    <string name="algorithm_name">Algorithm Name:</string>
+    <string name="the_code">The Code:</string>
+</resources>
