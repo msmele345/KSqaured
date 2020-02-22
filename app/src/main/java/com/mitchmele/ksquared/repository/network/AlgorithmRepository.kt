@@ -1,15 +1,18 @@
 package com.mitchmele.ksquared.repository.network
 
-import retrofit2.Retrofit
+import com.mitchmele.ksquared.algo_store.ResultData
+import com.mitchmele.ksquared.base.BaseDataSource
+import com.mitchmele.ksquared.model.Algorithm
 
-class AlgorithmRepository {
+class AlgorithmRepository: BaseDataSource() {
 
-//    val service by lazy {
-//        Retrofit.Builder()
-//            .baseUrl("http://localhost:8080/algorithms/all")
-//            .build()
-//    }
-//
-//    val api = service.create(AlgorithmApi::class.java)
+    var client =  ApiFactory.webservice
 
+   suspend fun getAlgorithms(): List<Algorithm> {
+        return client.getAlgorithms()
+    }
+
+    suspend fun getResponseAlgos(): ResultData<List<Algorithm>> {
+        return getData { client.getResponseAlgorithms() }
+    }
 }

@@ -5,5 +5,6 @@ data class Algorithm(
     val codeSnippet: String = "",
     val categoryDescription: String = "",
     val difficultyLevel: Int? = null,
-    val categoryTags: List<String> = emptyList()
+    val categoryTags: String = "",
+    val solved: Boolean = false
 )

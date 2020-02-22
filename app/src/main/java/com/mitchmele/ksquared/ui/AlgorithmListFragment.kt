@@ -5,15 +5,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mitchmele.ksquared.R
+import com.mitchmele.ksquared.algo_store.ResultData
 import com.mitchmele.ksquared.algo_store.UIViewState
 import com.mitchmele.ksquared.model.Algorithm
+import kotlinx.android.synthetic.main.error_view.*
+import kotlinx.android.synthetic.main.progress_spinner.*
 
 private const val TAG = "AlgorithmListFragment"
 
@@ -21,7 +26,7 @@ class AlgorithmListFragment : Fragment() {
 
     private lateinit var algoRecyclerView: RecyclerView
 
-    val algorithmViewModel: AlgorithmViewModel
+    private val algorithmViewModel: AlgorithmViewModel
             by lazy { ViewModelProviders.of(this).get(AlgorithmViewModel::class.java) }
 
     private var algorithmAdapter: AlgorithmAdapter? = AlgorithmAdapter(emptyList())
@@ -44,37 +49,54 @@ class AlgorithmListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        algorithmViewModel.algorithmLiveData.observe(
-//            this, Observer { algorithms ->
-//                algorithms?.let {
-//                    Log.d(TAG, "Got Algorithms: ${algorithms.size}")
-//                    updateUI(it)
-//                }
-//            }
-//        )
+        setViewState(UIViewState.Loading)
 
-        val algos = algorithmViewModel.algorithms
-        updateUI(algos)
+        algorithmViewModel.algorithmLiveDataRetro.observe(
+            this, Observer { algorithms ->
+                algorithms?.let { data ->
+                    when(data) {
+                        is ResultData.Success -> {
+                            Log.d(TAG, "Got ${data.value.size} Algorithms")
+                            updateUI(data.value)
+                        }
+                        is ResultData.Failure -> {
+                               setViewState(UIViewState.UIError)
+                                   .also { println("ERROR: ${data.errorMessage}")}
+                        }
+                    }
+                }
+            }
+        )
     }
 
 
     private fun updateUI(algorithms: List<Algorithm>) {
+        setViewState(UIViewState.UISuccess)
         //create adapter
         //set adapter
         //set layoutManager
         algorithmAdapter = AlgorithmAdapter(algorithms)
-        algoRecyclerView.layoutManager = object: LinearLayoutManager(context) {}
-        algoRecyclerView.adapter = algorithmAdapter
 
+        algoRecyclerView.apply {
+            layoutManager = object : LinearLayoutManager(context) {}
+            adapter = algorithmAdapter
+            algoRecyclerView.addItemDecoration(
+                DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
+
+            )
+        }
     }
 
-    private inner class AlgorithmHolder(view: View): RecyclerView.ViewHolder(view), View.OnClickListener {
+    private inner class AlgorithmHolder(view: View) : RecyclerView.ViewHolder(view),
+        View.OnClickListener {
         private lateinit var algorithm: Algorithm
 
         private val algorithmName: TextView = itemView.findViewById(R.id.algorithm_name)
-        private val algorithmCodeSnippet: TextView = itemView.findViewById(R.id.algorithm_code_snippet)
-        private val algorithmDescription: TextView = itemView.findViewById(R.id.algorithm_description)
-        private val difficultyLevel: TextView = itemView.findViewById(R.id.algorithm_difficulty)
+        private val algorithmCodeSnippet: TextView =
+            itemView.findViewById(R.id.algorithm_code_snippet)
+        private val algorithmDescription: TextView =
+            itemView.findViewById(R.id.algorithm_description)
+        private val isSolvedImage: ImageView = itemView.findViewById(R.id.algorithm_difficulty)
 
 
         init {
@@ -86,26 +108,24 @@ class AlgorithmListFragment : Fragment() {
             algorithmName.text = algorithm.name
             algorithmCodeSnippet.text = algorithm.codeSnippet
             algorithmDescription.text = algorithm.categoryDescription
-            difficultyLevel.text = algorithm.difficultyLevel.toString()
+            isSolvedImage.visibility = if (algorithm.solved) View.VISIBLE else View.GONE
         }
 
-
         override fun onClick(v: View?) {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
         }
     }
 
 
-    private inner class AlgorithmAdapter(var algorithms: List<Algorithm>): RecyclerView.Adapter<AlgorithmHolder>() {
+    private inner class AlgorithmAdapter(var algorithms: List<Algorithm>) :
+        RecyclerView.Adapter<AlgorithmHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlgorithmHolder {
             val view = layoutInflater.inflate(R.layout.list_item_algorithm, parent, false)
             return AlgorithmHolder(view)
         }
 
-        override fun getItemCount(): Int {
-            return algorithms.size
-        }
+        override fun getItemCount(): Int = algorithms.size
 
         override fun onBindViewHolder(holder: AlgorithmHolder, position: Int) {
             val algorithm = algorithms[position]
@@ -114,20 +134,24 @@ class AlgorithmListFragment : Fragment() {
 
     }
 
-
-    fun setViewState(UIViewState: UIViewState) {
-        return when (UIViewState) {
+    private fun setViewState(uiViewState: UIViewState) {
+        progress_spinner.visibility = View.GONE
+        default_error_view.visibility = View.GONE
+        return when (uiViewState) {
             is UIViewState.Loading -> {
-            } //progress spinner
+                progress_spinner.visibility = View.VISIBLE
+            }
             is UIViewState.Empty -> {
             } //empty view is visible
-            is UIViewState.UISuccess<*> -> {
+            is UIViewState.UISuccess -> {
+                progress_spinner.visibility = View.GONE
             }
             is UIViewState.UIError -> {
-            } //show
+//                algoRecyclerView.visibility = View.GONE
+                default_error_view.visibility = View.VISIBLE
+            } //show errorView
         }
     }
-
 
     companion object {
         fun newInstance(): AlgorithmListFragment {
@@ -135,3 +159,17 @@ class AlgorithmListFragment : Fragment() {
         }
     }
 }
+
+
+//OLD WAY WITHOUT RESULTDATA
+//        algorithmViewModel.algorithmLiveData.observe(
+//            this, Observer { algorithms ->
+//                algorithms?.let {algorithms ->
+//                    Log.d(TAG, "Got Algorithms: ${algorithms.size}")
+//                    updateUI(it)
+//                    }
+//                }
+//            }
+//        )
+//
+//        updateUI(algorithmViewModel.algorithms)

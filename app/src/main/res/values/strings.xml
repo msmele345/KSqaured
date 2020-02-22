@@ -2,4 +2,7 @@
     <string name="app_name">KSquared</string>
     <string name="algorithm_name">Algorithm Name:</string>
     <string name="the_code">The Code:</string>
+    <string name="we_re_having_trouble_finding_your_information">we_re_having_trouble_finding_your_information</string>
+    <string name="come_back_later_or_try_again">come_back_later_or_try_again</string>
+    <string name="try_again">try_again</string>
 </resources>
