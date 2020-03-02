@@ -2,9 +2,14 @@ package com.mitchmele.ksquared
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import com.mitchmele.ksquared.ui.AlgorithmDetailFragment
 import com.mitchmele.ksquared.ui.AlgorithmListFragment
+import java.util.*
 
-class MainActivity : AppCompatActivity() {
+private const val TAG = "MainActivity"
+
+class MainActivity : AppCompatActivity(), AlgorithmListFragment.CallBacks {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,10 +24,21 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager
                     .beginTransaction()
                     .add(R.id.fragment_container, fragment)
+                    .addToBackStack(null)
                     .commit()
-
             }
         }
+
+    }
+
+    override fun onAlgorithmSelected(algoId: UUID) {
+        Log.d(TAG, "MainActivity.onAlgoSelected: $algoId")
+
+//        val fragment = AlgorithmDetailFragment.newInstance(algoId)
+        //Add UUID and ID to AlgoDomainModel and write tests
+        //reload algos with isSolved changes and new UUId
+        //re-implement loadAlgo in repository
+
 
     }
 }

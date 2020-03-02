@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -19,12 +20,18 @@ import com.mitchmele.ksquared.algo_store.UIViewState
 import com.mitchmele.ksquared.model.Algorithm
 import kotlinx.android.synthetic.main.error_view.*
 import kotlinx.android.synthetic.main.progress_spinner.*
+import java.util.*
 
 private const val TAG = "AlgorithmListFragment"
 
 class AlgorithmListFragment : Fragment() {
 
+    interface CallBacks {
+        fun onAlgorithmSelected(algoId: UUID)
+    }
+
     private lateinit var algoRecyclerView: RecyclerView
+    private lateinit var retryButton: Button
 
     private val algorithmViewModel: AlgorithmViewModel
             by lazy { ViewModelProviders.of(this).get(AlgorithmViewModel::class.java) }
@@ -39,16 +46,26 @@ class AlgorithmListFragment : Fragment() {
     ): View? {
 
         val view = inflater.inflate(R.layout.fragment_algo_list, container, false)
+        retryButton = view.findViewById(R.id.error_retry_button)
 
+        algoRecyclerView = view.findViewById(R.id.algo_recycler_view)
+
+        algoRecyclerView.addItemDecoration(
+            DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
+
+        )
         algoRecyclerView = view.findViewById(R.id.algo_recycler_view) as RecyclerView
+        algoRecyclerView.layoutManager = LinearLayoutManager(context)
+        algorithmAdapter = algorithmAdapter
+
+
+
         return view
 
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setViewState(UIViewState.Loading)
 
         algorithmViewModel.algorithmLiveDataRetro.observe(
@@ -61,7 +78,7 @@ class AlgorithmListFragment : Fragment() {
                         }
                         is ResultData.Failure -> {
                                setViewState(UIViewState.UIError)
-                                   .also { println("ERROR: ${data.errorMessage}")}
+                                   .also { Log.d(TAG, "ERROR: ${data.errorMessage}")}
                         }
                     }
                 }
@@ -69,22 +86,13 @@ class AlgorithmListFragment : Fragment() {
         )
     }
 
-
     private fun updateUI(algorithms: List<Algorithm>) {
         setViewState(UIViewState.UISuccess)
         //create adapter
         //set adapter
         //set layoutManager
         algorithmAdapter = AlgorithmAdapter(algorithms)
-
-        algoRecyclerView.apply {
-            layoutManager = object : LinearLayoutManager(context) {}
-            adapter = algorithmAdapter
-            algoRecyclerView.addItemDecoration(
-                DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
-
-            )
-        }
+        algoRecyclerView.adapter = algorithmAdapter
     }
 
     private inner class AlgorithmHolder(view: View) : RecyclerView.ViewHolder(view),
@@ -116,7 +124,6 @@ class AlgorithmListFragment : Fragment() {
         }
     }
 
-
     private inner class AlgorithmAdapter(var algorithms: List<Algorithm>) :
         RecyclerView.Adapter<AlgorithmHolder>() {
 
@@ -137,6 +144,7 @@ class AlgorithmListFragment : Fragment() {
     private fun setViewState(uiViewState: UIViewState) {
         progress_spinner.visibility = View.GONE
         default_error_view.visibility = View.GONE
+        //start with recycler view as gone
         return when (uiViewState) {
             is UIViewState.Loading -> {
                 progress_spinner.visibility = View.VISIBLE
@@ -145,6 +153,7 @@ class AlgorithmListFragment : Fragment() {
             } //empty view is visible
             is UIViewState.UISuccess -> {
                 progress_spinner.visibility = View.GONE
+                //SETUP to show recycler view here VISIBLE
             }
             is UIViewState.UIError -> {
 //                algoRecyclerView.visibility = View.GONE

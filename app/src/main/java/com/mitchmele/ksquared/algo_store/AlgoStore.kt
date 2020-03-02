@@ -1,7 +1,7 @@
 package com.mitchmele.ksquared.algo_store
 
-import com.mitchmele.ksquared.model.Algorithm
-
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 
 data class AlgorithmSummaryResponse(
     val name: String = "",
@@ -35,23 +35,21 @@ sealed class ResultData<out T> {
 }
 
 
-fun generateAlgorithm(): List<Algorithm> {
-    val names = listOf("removeDupes", "stringParser", "countPrimes", "sumEvenNumbers", "onlyUniqueValues", "countOddValues")
-    val categoryDescriptions = listOf("HARD", "EASY", "MEDIUM")
-    return (0..25).map {
-        Algorithm(
-            name = names.getRandom(),
-            codeSnippet = "fun getSum(value1: Int, value2: Int) = value1 + value2",
-            categoryDescription = categoryDescriptions.getRandom(),
-            difficultyLevel = (1..5).toList().getRandom(),
-            categoryTags = "Strings, Arrays, Numbers"
-
-        )
-    }
-}
-
-
-
 fun<T> List<T>.getRandom() : T {
     return this.shuffled().first()
 }
+
+
+interface DispatcherProvider {
+    val io: CoroutineDispatcher
+    val ui: CoroutineDispatcher
+    val default: CoroutineDispatcher
+    val unconfined: CoroutineDispatcher
+}
+
+class DefaultDispatcherProvider(
+    override val ui: CoroutineDispatcher = Dispatchers.Main,
+    override val default: CoroutineDispatcher = Dispatchers.Default,
+    override val io: CoroutineDispatcher = Dispatchers.IO,
+    override val unconfined: CoroutineDispatcher = Dispatchers.Unconfined
+) : DispatcherProvider

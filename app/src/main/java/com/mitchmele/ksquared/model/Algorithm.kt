@@ -1,5 +1,7 @@
 package com.mitchmele.ksquared.model
 
+import java.util.*
+
 data class Algorithm(
     val name: String = "",
     val codeSnippet: String = "",
@@ -8,3 +10,4 @@ data class Algorithm(
     val categoryTags: String = "",
     val solved: Boolean = false
 )
+//    val id: UUID = UUID.randomUUID(),

@@ -4,15 +4,19 @@ import com.mitchmele.ksquared.algo_store.ResultData
 import com.mitchmele.ksquared.base.BaseDataSource
 import com.mitchmele.ksquared.model.Algorithm
 
-class AlgorithmRepository: BaseDataSource() {
+class AlgorithmRepository : BaseDataSource() {
 
-    var client =  ApiFactory.webservice
+    var client = ApiFactory.webservice
 
-   suspend fun getAlgorithms(): List<Algorithm> {
+    suspend fun getAlgorithms(): List<Algorithm> {
         return client.getAlgorithms()
     }
 
     suspend fun getResponseAlgos(): ResultData<List<Algorithm>> {
         return getData { client.getResponseAlgorithms() }
+    }
+
+    suspend fun getAlgorithmByName(name: String): ResultData<Algorithm> {
+        return getData { client.getAlgorithmByName(name) }
     }
 }

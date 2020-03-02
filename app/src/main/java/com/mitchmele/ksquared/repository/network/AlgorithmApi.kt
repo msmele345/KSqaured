@@ -12,4 +12,7 @@ interface AlgorithmApi {
 
     @GET(BASE_URL)
     suspend fun getResponseAlgorithms() : Response<List<Algorithm>>
+
+    @GET(BASE_URL)
+    suspend fun getAlgorithmByName(name: String): Response<Algorithm>
 }
