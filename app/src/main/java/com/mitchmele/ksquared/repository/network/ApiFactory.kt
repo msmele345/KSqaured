@@ -6,6 +6,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 const val BASE_URL = "http://10.0.2.2:8080/algorithms/all/"
+const val NAME_URL = "http://10.0.2.2:8080/algorithms/{name}/"
+
 object ApiFactory {
 
 
@@ -21,8 +23,8 @@ object ApiFactory {
 
     }
 
-
     val algoApi: AlgorithmApi = retroFit().create(AlgorithmApi::class.java)
+
 
     //option 2
     val webservice by lazy {

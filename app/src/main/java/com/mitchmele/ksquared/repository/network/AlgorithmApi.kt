@@ -4,6 +4,7 @@ import com.mitchmele.ksquared.algo_store.AlgorithmSummaryResponse
 import com.mitchmele.ksquared.model.Algorithm
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 interface AlgorithmApi {
 
@@ -13,6 +14,6 @@ interface AlgorithmApi {
     @GET(BASE_URL)
     suspend fun getResponseAlgorithms() : Response<List<Algorithm>>
 
-    @GET(BASE_URL)
-    suspend fun getAlgorithmByName(name: String): Response<Algorithm>
+    @GET("http://10.0.2.2:8080/algorithms/{name}/")
+    suspend fun getAlgorithmByName(@Path("name")name: String): Response<Algorithm>
 }
