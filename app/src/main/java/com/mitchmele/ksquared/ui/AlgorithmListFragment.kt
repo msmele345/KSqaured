@@ -1,5 +1,6 @@
 package com.mitchmele.ksquared.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,7 +11,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,25 +19,27 @@ import com.mitchmele.ksquared.algo_store.ResultData
 import com.mitchmele.ksquared.algo_store.UIViewState
 import com.mitchmele.ksquared.model.Algorithm
 import kotlinx.android.synthetic.main.error_view.*
+import kotlinx.android.synthetic.main.fragment_algo_list.*
 import kotlinx.android.synthetic.main.progress_spinner.*
-import java.util.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 private const val TAG = "AlgorithmListFragment"
 
 class AlgorithmListFragment : Fragment() {
 
     interface CallBacks {
-        fun onAlgorithmSelected(algoId: UUID)
+        fun onAlgorithmSelected(algoId: String)
     }
+
+    private var callBacks: CallBacks? = null
 
     private lateinit var algoRecyclerView: RecyclerView
     private lateinit var retryButton: Button
 
     private val algorithmViewModel: AlgorithmViewModel
-            by lazy { ViewModelProviders.of(this).get(AlgorithmViewModel::class.java) }
+            by viewModel()
 
     private var algorithmAdapter: AlgorithmAdapter? = AlgorithmAdapter(emptyList())
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,7 +58,7 @@ class AlgorithmListFragment : Fragment() {
         )
         algoRecyclerView = view.findViewById(R.id.algo_recycler_view) as RecyclerView
         algoRecyclerView.layoutManager = LinearLayoutManager(context)
-        algorithmAdapter = algorithmAdapter
+        algoRecyclerView.adapter = algorithmAdapter
 
 
 
@@ -69,7 +71,7 @@ class AlgorithmListFragment : Fragment() {
         setViewState(UIViewState.Loading)
 
         algorithmViewModel.algorithmLiveDataRetro.observe(
-            this, Observer { algorithms ->
+            viewLifecycleOwner, Observer { algorithms ->
                 algorithms?.let { data ->
                     when(data) {
                         is ResultData.Success -> {
@@ -120,7 +122,7 @@ class AlgorithmListFragment : Fragment() {
         }
 
         override fun onClick(v: View?) {
-
+            callBacks?.onAlgorithmSelected(algorithm.name)
         }
     }
 
@@ -144,7 +146,7 @@ class AlgorithmListFragment : Fragment() {
     private fun setViewState(uiViewState: UIViewState) {
         progress_spinner.visibility = View.GONE
         default_error_view.visibility = View.GONE
-        //start with recycler view as gone
+        algo_recycler_view.visibility = View.GONE
         return when (uiViewState) {
             is UIViewState.Loading -> {
                 progress_spinner.visibility = View.VISIBLE
@@ -153,6 +155,7 @@ class AlgorithmListFragment : Fragment() {
             } //empty view is visible
             is UIViewState.UISuccess -> {
                 progress_spinner.visibility = View.GONE
+                algo_recycler_view.visibility = View.VISIBLE
                 //SETUP to show recycler view here VISIBLE
             }
             is UIViewState.UIError -> {
@@ -162,23 +165,20 @@ class AlgorithmListFragment : Fragment() {
         }
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callBacks = context as CallBacks?
+    }
+
+
+    override fun onDetach() {
+        super.onDetach()
+        callBacks = null
+    }
+
     companion object {
         fun newInstance(): AlgorithmListFragment {
             return AlgorithmListFragment()
         }
     }
 }
-
-
-//OLD WAY WITHOUT RESULTDATA
-//        algorithmViewModel.algorithmLiveData.observe(
-//            this, Observer { algorithms ->
-//                algorithms?.let {algorithms ->
-//                    Log.d(TAG, "Got Algorithms: ${algorithms.size}")
-//                    updateUI(it)
-//                    }
-//                }
-//            }
-//        )
-//
-//        updateUI(algorithmViewModel.algorithms)

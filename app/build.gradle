@@ -39,7 +39,7 @@ android {
 
 def room_version = "2.2.3"
 
-def arch_version = '2.2.0-alpha01'
+def arch_version = '2.2.0'
 //or 2.2.0
 
 dependencies {
@@ -73,6 +73,7 @@ dependencies {
 
     //Okhttp3
     implementation "com.squareup.okhttp3:okhttp:3.13.1"
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.2'
 
 
     //retro
@@ -81,21 +82,25 @@ dependencies {
 
 
     //KOIN?
-    implementation  'org.koin:koin-android:2.0.0-GA'
+    implementation  'org.koin:koin-android:2.0.1'
+    implementation "org.koin:koin-androidx-viewmodel:2.0.1"
 
+    implementation 'androidx.cardview:cardview:1.0.0'
 
-
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'org.assertj:assertj-core:3.15.0'
 
 
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
+
+
     testImplementation 'com.android.support.test:rules:1.0.2'
     testImplementation 'com.android.support.test:runner:1.0.2'
     testImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     testImplementation "org.robolectric:robolectric:4.3"
 
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
 
 }

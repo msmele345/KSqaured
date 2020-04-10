@@ -1,52 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <TextView
-        style="?android:listSeparatorTextViewStyle"
+    <LinearLayout
+        android:id="@+id/algo_detail_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/algorithm_details_title"/>
-
-    <TextView
-        android:id="@+id/algorithm_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
 
-    <TextView
-        style="?android:listSeparatorTextViewStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/algorithm_details_label"/>
+        <TextView
+            android:id="@+id/name_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/algorithm_details_title"
+            android:textAllCaps="true"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/name_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="GetString" />
 
 
-    <TextView
-        android:id="@+id/algorithm_difficulty"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:text="HARD"/>
-
-    <TextView
-        android:id="@+id/algorithm_code_snippet"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:text="fun getString(): String = string.get()"/>
-
-    <TextView
-        android:id="@+id/algorithm_categories"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:text="fun getString(): String = string.get()"/>
-
-    <CheckBox
-        android:id="@+id/algorithm_solved"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/algorithm_solved_label"/>
+        <TextView
+            android:id="@+id/details_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/algorithm_details_label"
+            android:textAllCaps="true"
+            android:textStyle="bold" />
 
 
+        <TextView
+            android:id="@+id/details_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Easy one line expression" />
+
+        <TextView
+            android:id="@+id/difficulty_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Difficulty"
+            android:textAllCaps="true"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/difficulty_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="HARD" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CodeSnippet:"
+            android:textAllCaps="true"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/algorithm_code_snippet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="fun getString(): String = string.get()" />
+
+
+        <TextView
+            android:id="@+id/category_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CATEGORIES:" />
+
+
+        <TextView
+            android:id="@+id/categories_value"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="STRINGS, EXPRESSIONS" />
+
+        <CheckBox
+            android:id="@+id/algorithm_solved"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/algorithm_solved_label" />
+
+    </LinearLayout>
+
+    <include
+        layout="@layout/progress_spinner"
+        android:visibility="gone" />
+
+    <include
+        layout="@layout/error_view"
+        android:visibility="gone" />
 
 </LinearLayout>

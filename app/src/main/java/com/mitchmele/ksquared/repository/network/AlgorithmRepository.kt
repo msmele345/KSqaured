@@ -6,11 +6,7 @@ import com.mitchmele.ksquared.model.Algorithm
 
 class AlgorithmRepository : BaseDataSource() {
 
-    var client = ApiFactory.webservice
-
-    suspend fun getAlgorithms(): List<Algorithm> {
-        return client.getAlgorithms()
-    }
+    var client = ApiFactory.algoApi
 
     suspend fun getResponseAlgos(): ResultData<List<Algorithm>> {
         return getData { client.getResponseAlgorithms() }

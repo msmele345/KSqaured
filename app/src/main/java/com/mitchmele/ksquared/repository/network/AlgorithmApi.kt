@@ -1,6 +1,5 @@
 package com.mitchmele.ksquared.repository.network
 
-import com.mitchmele.ksquared.algo_store.AlgorithmSummaryResponse
 import com.mitchmele.ksquared.model.Algorithm
 import retrofit2.Response
 import retrofit2.http.GET

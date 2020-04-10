@@ -3,14 +3,6 @@ package com.mitchmele.ksquared.algo_store
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
-data class AlgorithmSummaryResponse(
-    val name: String = "",
-    val codeSnippet: String = "",
-    val categoryDescription: String = "",
-    val difficultyLevel: Int? = null,
-    val categoryTags: List<String> = emptyList()
-)
-
 //for setting ui
 sealed class UIViewState {
     object Loading : UIViewState()
@@ -39,7 +31,7 @@ fun<T> List<T>.getRandom() : T {
     return this.shuffled().first()
 }
 
-
+///for testing coroutines - WIP
 interface DispatcherProvider {
     val io: CoroutineDispatcher
     val ui: CoroutineDispatcher

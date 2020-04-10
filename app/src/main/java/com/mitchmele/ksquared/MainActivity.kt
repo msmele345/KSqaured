@@ -31,14 +31,13 @@ class MainActivity : AppCompatActivity(), AlgorithmListFragment.CallBacks {
 
     }
 
-    override fun onAlgorithmSelected(algoId: UUID) {
+    override fun onAlgorithmSelected(algoId: String) {
         Log.d(TAG, "MainActivity.onAlgoSelected: $algoId")
-
-//        val fragment = AlgorithmDetailFragment.newInstance(algoId)
-        //Add UUID and ID to AlgoDomainModel and write tests
-        //reload algos with isSolved changes and new UUId
-        //re-implement loadAlgo in repository
-
-
+        val fragment = AlgorithmDetailFragment.newInstance(algoId)
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 }

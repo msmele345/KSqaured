@@ -1,5 +1,6 @@
 package com.mitchmele.ksquared.repository.network
 
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
@@ -16,3 +17,5 @@ class AlgorithmKoinServiceApi {
     }
 
 }
+
+//add this to constructor of repository and add to koin
