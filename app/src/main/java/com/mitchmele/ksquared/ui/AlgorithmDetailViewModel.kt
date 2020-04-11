@@ -12,33 +12,38 @@ import com.mitchmele.ksquared.repository.network.AlgorithmRepository
 import kotlinx.coroutines.Dispatchers
 import retrofit2.Response
 //constructor will soon have new koin api
-class AlgorithmDetailViewModel : ViewModel(), NetworkClient {
+class AlgorithmDetailViewModel(
+    private val algorithmApi: AlgorithmApi
+) : ViewModel(), NetworkClient {
 
-    private val algorithmRepository = AlgorithmRepository()
-
-    fun getAlgorithmByName(name: String) =
-        liveData(Dispatchers.IO) {
-            val algorithm = algorithmRepository.getAlgorithmByName(name)
-            emit(algorithm)
-        }
+//    private val algorithmRepository = AlgorithmRepository()
+//
+//    fun getAlgorithmByName(name: String) =
+//        liveData(Dispatchers.IO) {
+//            val algorithm = algorithmRepository.getAlgorithmByName(name)
+//            emit(algorithm)
+//        }
 
 
     fun getAlgorithmByName2(name: String) =
         liveData(Dispatchers.IO) {
-            val algorithm = algorithmRepository.getAlgorithmByName(name)
+            val algorithm = getData { algorithmApi.getAlgorithmByName(name) }
             emit(algorithm)
         }
 
-//    suspend fun fetchAlgorithmByName(name: String): ResultData<Algorithm> {
-//        return getData { koinApi.getAlgorithmByName(name) }
-//    }
-
     override suspend fun <T> getData(call: suspend () -> Response<T>): ResultData<T> {
-        TODO("Not yet implemented")
+        call().let { response ->
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null)
+                    return ResultData.success(body)
+            }
+            return showError("${response.code()} ${response.message()}")
+        }
     }
 
     override fun <T> showError(errorMessage: String): ResultData<T> {
-        TODO("Not yet implemented")
+        return ResultData.failure("Network call has failed for a following reason: $errorMessage")
     }
 }
 

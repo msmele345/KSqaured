@@ -20,12 +20,9 @@ import java.util.concurrent.TimeUnit
 
 class BaseApplication : Application() {
 
-
     val listOfModules = module {
-        single { AlgorithmKoinServiceApi() } //wont need if api modules work
-        single { AlgorithmRepository() }
         viewModel { AlgorithmViewModel(get()) }
-//        viewModel { AlgorithmDetailViewModel() }
+        viewModel { AlgorithmDetailViewModel(get()) }
     }
 
     val apiModule = module {
@@ -33,7 +30,7 @@ class BaseApplication : Application() {
             retrofit
                 .create(AlgorithmApi::class.java)
 
-        single { providesApiService(get()) }
+        single { providesApiService(get()) } //dependencies don't have to be in same module
     }
 
 
@@ -71,28 +68,12 @@ class BaseApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        //loadKoinModules
-        //Posts.init()
-
         startKoin {
             androidLogger()
             androidContext(this@BaseApplication)
-            modules(listOfModules)
+            modules(listOf(listOfModules, apiModule, retroFitModule))
+//            modules(listOfModules)
         }
     }
 }
 
-/*
-*
-object Posts {
-    fun init() = loadKoinModules(
-        viewModelModule,
-        useCaseModule,
-        repositoryModule,
-        networkModule,
-        cacheModule
-    )
-
-*
-*
-* */

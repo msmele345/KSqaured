@@ -1,6 +1,7 @@
 package com.mitchmele.ksquared.repository.network
 
 import com.mitchmele.ksquared.model.Algorithm
+import com.mitchmele.ksquared.utils.KSquaredConstants.BASE_URL
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

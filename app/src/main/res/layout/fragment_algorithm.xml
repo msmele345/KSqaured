@@ -18,16 +18,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:orientation="horizontal">
+            android:layout_marginBottom="25sp"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/name_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="100dp"
+                android:layout_marginBottom="5dp"
                 android:drawableStart="@drawable/ic_book_icon"
-
+                android:textSize="15sp"
                 android:text="@string/algorithm_details_title"
                 android:textAllCaps="true"
                 android:textStyle="bold" />
@@ -36,10 +36,8 @@
             <TextView
                 android:id="@+id/name_value"
                 android:layout_width="wrap_content"
-                android:layout_marginTop="4dp"
                 android:textStyle="bold"
-                android:textAllCaps="true"
-                android:textSize="25sp"
+                android:textSize="15sp"
                 android:layout_height="wrap_content"
                 tools:text="GetString" />
 
@@ -48,7 +46,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="25sp"
             android:orientation="vertical">
 
             <TextView
@@ -74,7 +72,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="25sp"
             android:orientation="vertical">
 
             <TextView
@@ -101,7 +99,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="25sp"
             android:orientation="vertical">
 
             <TextView
@@ -129,14 +127,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="2dp"
-                android:layout_marginEnd="5dp"
+                android:layout_marginEnd="30dp"
                 android:drawableStart="@drawable/ic_mathematics"
                 android:drawablePadding="4dp"
                 android:text="@string/codesnippet"
@@ -148,8 +145,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/algorithm_solved_label" />
-
-
         </LinearLayout>
 
         <TextView

@@ -163,6 +163,8 @@ class AlgorithmListFragment : Fragment() {
     }
 
 
+
+
     override fun onDetach() {
         super.onDetach()
         callBacks = null

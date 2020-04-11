@@ -17,6 +17,7 @@ import com.mitchmele.ksquared.utils.KSquaredConstants.DETAIL_TAG
 import kotlinx.android.synthetic.main.error_view.*
 import kotlinx.android.synthetic.main.fragment_algorithm.*
 import kotlinx.android.synthetic.main.progress_spinner.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AlgorithmDetailFragment : Fragment() {
 
@@ -24,9 +25,12 @@ class AlgorithmDetailFragment : Fragment() {
 
     var algorithmNameId: String? = null
 
-    private val algorithmDetailViewModel: AlgorithmDetailViewModel by lazy {
-        ViewModelProviders.of(this).get(AlgorithmDetailViewModel::class.java)
-    }
+//    private val algorithmDetailViewModel: AlgorithmDetailViewModel by lazy {
+//        ViewModelProviders.of(this).get(AlgorithmDetailViewModel::class.java)
+//    }
+
+    private val algorithmDetailViewModel: AlgorithmDetailViewModel
+            by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +53,7 @@ class AlgorithmDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         algorithmNameId?.let {
-            algorithmDetailViewModel.getAlgorithmByName(it).observe(
+            algorithmDetailViewModel.getAlgorithmByName2(it).observe(
                 viewLifecycleOwner,
                 androidx.lifecycle.Observer { response ->
                     when (response) {
