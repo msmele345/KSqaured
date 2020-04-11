@@ -18,12 +18,11 @@ import com.mitchmele.ksquared.R
 import com.mitchmele.ksquared.algo_store.ResultData
 import com.mitchmele.ksquared.algo_store.UIViewState
 import com.mitchmele.ksquared.model.Algorithm
+import com.mitchmele.ksquared.utils.KSquaredConstants.LIST_TAG
 import kotlinx.android.synthetic.main.error_view.*
 import kotlinx.android.synthetic.main.fragment_algo_list.*
 import kotlinx.android.synthetic.main.progress_spinner.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
-private const val TAG = "AlgorithmListFragment"
 
 class AlgorithmListFragment : Fragment() {
 
@@ -75,12 +74,12 @@ class AlgorithmListFragment : Fragment() {
                 algorithms?.let { data ->
                     when(data) {
                         is ResultData.Success -> {
-                            Log.d(TAG, "Got ${data.value.size} Algorithms")
+                            Log.d(LIST_TAG, "Got ${data.value.size} Algorithms")
                             updateUI(data.value)
                         }
                         is ResultData.Failure -> {
                                setViewState(UIViewState.UIError)
-                                   .also { Log.d(TAG, "ERROR: ${data.errorMessage}")}
+                                   .also { Log.d(LIST_TAG, "ERROR: ${data.errorMessage}")}
                         }
                     }
                 }
@@ -151,18 +150,11 @@ class AlgorithmListFragment : Fragment() {
             is UIViewState.Loading -> {
                 progress_spinner.visibility = View.VISIBLE
             }
-            is UIViewState.Empty -> {
-            } //empty view is visible
             is UIViewState.UISuccess -> {
                 progress_spinner.visibility = View.GONE
                 algo_recycler_view.visibility = View.VISIBLE
-                //SETUP to show recycler view here VISIBLE
             }
-            is UIViewState.UIError -> {
-//                algoRecyclerView.visibility = View.GONE
-                default_error_view.visibility = View.VISIBLE
-            } //show errorView
-        }
+            is UIViewState.UIError -> { default_error_view.visibility = View.VISIBLE } }
     }
 
     override fun onAttach(context: Context) {

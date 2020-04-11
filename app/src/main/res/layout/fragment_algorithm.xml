@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="8dp"
     android:orientation="vertical">
 
     <LinearLayout
@@ -12,84 +15,149 @@
         android:orientation="vertical">
 
 
-        <TextView
-            android:id="@+id/name_label"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/algorithm_details_title"
-            android:textAllCaps="true"
-            android:textStyle="bold" />
+            android:layout_marginBottom="15dp"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/name_value"
+            <TextView
+                android:id="@+id/name_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="100dp"
+                android:drawableStart="@drawable/ic_book_icon"
+
+                android:text="@string/algorithm_details_title"
+                android:textAllCaps="true"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/name_value"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:textSize="25sp"
+                android:layout_height="wrap_content"
+                tools:text="GetString" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="GetString" />
+            android:layout_marginBottom="15dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/details_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:text="@string/algorithm_details_label"
+                android:textAllCaps="true"
+                android:textStyle="bold" />
 
 
-        <TextView
-            android:id="@+id/details_label"
+            <TextView
+                android:id="@+id/details_value"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textStyle="italic"
+                tools:text="Easy one line expression" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/algorithm_details_label"
-            android:textAllCaps="true"
-            android:textStyle="bold" />
+            android:layout_marginBottom="15dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/difficulty_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:drawableStart="@drawable/ic_brain"
+                android:drawablePadding="4dp"
+                android:text="@string/difficulty_level"
+                android:textAllCaps="true"
+                android:textStyle="bold" />
 
 
-        <TextView
-            android:id="@+id/details_value"
+            <TextView
+                android:id="@+id/difficulty_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="italic"
+                tools:text="HARD" />
+        </LinearLayout>
+
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Easy one line expression" />
+            android:layout_marginBottom="15dp"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/difficulty_label"
+            <TextView
+                android:id="@+id/category_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:drawableStart="@drawable/ic_formula"
+                android:drawablePadding="4dp"
+                android:text="@string/categories"
+                android:textAllCaps="true"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/categories_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="italic"
+                tools:text="Strings, Expressions" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Difficulty"
-            android:textAllCaps="true"
-            android:textStyle="bold" />
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:layout_marginEnd="5dp"
+                android:drawableStart="@drawable/ic_mathematics"
+                android:drawablePadding="4dp"
+                android:text="@string/codesnippet"
+                android:textAllCaps="true"
+                android:textStyle="bold" />
+
+            <CheckBox
+                android:id="@+id/algorithm_solved"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/algorithm_solved_label" />
 
 
-        <TextView
-            android:id="@+id/difficulty_value"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="HARD" />
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="CodeSnippet:"
-            android:textAllCaps="true"
-            android:textStyle="bold" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/algorithm_code_snippet"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="fun getString(): String = string.get()" />
+            android:layout_height="100dp"
+            tools:text="fun getString(): String = string.get()"/>
 
-
-        <TextView
-            android:id="@+id/category_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="CATEGORIES:" />
-
-
-        <TextView
-            android:id="@+id/categories_value"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="STRINGS, EXPRESSIONS" />
-
-        <CheckBox
-            android:id="@+id/algorithm_solved"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/algorithm_solved_label" />
 
     </LinearLayout>
 

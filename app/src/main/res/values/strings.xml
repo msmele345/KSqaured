@@ -7,9 +7,12 @@
     <string name="try_again">TRY AGAIN</string>
 
     <string name="algorithm_title_hint">Enter a title for the algorithm.</string>
-    <string name="algorithm_details_label">Details</string>
+    <string name="algorithm_details_label">Details: </string>
     <string name="algorithm_solved_label">Solved</string>
     <string name="algorithm_title">Algorithm Name</string>
     <string name="algorithm_date">Algorithm Date</string>
-    <string name="algorithm_details_title">Title</string>
+    <string name="algorithm_details_title">Title: </string>
+    <string name="difficulty_level">Difficulty Level:</string>
+    <string name="categories">CATEGORIES:</string>
+    <string name="codesnippet">CodeSnippet:</string>
 </resources>

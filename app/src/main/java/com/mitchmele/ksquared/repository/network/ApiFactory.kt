@@ -1,16 +1,11 @@
 package com.mitchmele.ksquared.repository.network
 
-import com.mitchmele.ksquared.model.Algorithm
-import com.mitchmele.ksquared.model.MoshiUUIDAdapter
-import com.squareup.moshi.Moshi
+import com.mitchmele.ksquared.utils.KSquaredConstants.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
-
-const val BASE_URL = "http://10.0.2.2:8080/algorithms/all/"
-const val NAME_URL = "http://10.0.2.2:8080/algorithms/{name}/"
 
 object ApiFactory {
 

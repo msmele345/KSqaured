@@ -6,7 +6,6 @@ import kotlinx.coroutines.Dispatchers
 //for setting ui
 sealed class UIViewState {
     object Loading : UIViewState()
-    object Empty: UIViewState()
     object UIError: UIViewState()
     object UISuccess: UIViewState()
 }
