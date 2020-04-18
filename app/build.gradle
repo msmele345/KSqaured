@@ -11,7 +11,7 @@ android {
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.mitchmele.ksquared"
-        minSdkVersion 22
+        minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -92,7 +92,7 @@ dependencies {
     androidTestImplementation 'org.assertj:assertj-core:3.15.0'
 
 
-    testImplementation 'junit:junit:4.12'
+//    testImplementation 'junit:junit:4.12'
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0"
 
 
@@ -101,7 +101,13 @@ dependencies {
     testImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     testImplementation "org.robolectric:robolectric:4.3"
 
-    testImplementation("org.assertj:assertj-core:3.11.1")
-    testImplementation( group: 'com.nhaarman', name: 'mockito-kotlin', version: '1.3.0')
+
+    //coroutines helpers
+    testImplementation 'androidx.test.ext:junit:1.1.2-alpha05'
+    testImplementation 'org.mockito:mockito-core:3.1.0'
+    testImplementation 'org.mockito:mockito-inline:3.0.0'
+    testImplementation 'org.amshove.kluent:kluent:1.51'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.2'
+    testImplementation 'androidx.arch.core:core-testing:2.1.0'
 
 }

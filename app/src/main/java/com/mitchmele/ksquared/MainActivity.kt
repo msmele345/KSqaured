@@ -1,11 +1,10 @@
 package com.mitchmele.ksquared
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.mitchmele.ksquared.ui.AlgorithmDetailFragment
 import com.mitchmele.ksquared.ui.AlgorithmListFragment
-import java.util.*
 
 private const val TAG = "MainActivity"
 
@@ -16,9 +15,7 @@ class MainActivity : AppCompatActivity(), AlgorithmListFragment.CallBacks {
         setContentView(R.layout.activity_main)
 
 
-        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
-
-        when (currentFragment) {
+        when (supportFragmentManager.findFragmentById(R.id.fragment_container)) {
             null -> {
                 val fragment = AlgorithmListFragment.newInstance()
                 supportFragmentManager

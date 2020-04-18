@@ -3,4 +3,38 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="orange">#C46926</color>
+    <color name="pink">#DE7E82</color>
+    <color name="green">#D81B60</color>
+    <color name="beige">#A59177</color>
+    <color name="purple">#715EB8</color>
+    <color name="lightOrange">#F3901A</color>
+    <color name="red">#FC1A06</color>
+    <color name="lime">#67B70C</color>
+    <color name="teal">#40F3D2</color>
+    <color name="burnt">#B82606</color>
+    <color name="lightGreen">#9CF852</color>
+    <color name="armyGreen">#535935</color>
+    <color name="lightBlue">#2C8AD9</color>
+    <color name="fusia">#F94E3B</color>
+    <color name="skyBlue">#1CD0FE</color>
+    <color name="white">#FFFFFF</color>
+
+
+    <integer-array name="androidcolors">
+        <item>@color/beige</item>
+        <item>@color/purple</item>
+        <item>@color/green</item>
+        <item>@color/orange</item>
+        <item>@color/red</item>
+        <item>@color/lightGreen</item>
+        <item>@color/teal</item>
+        <item>@color/lightOrange</item>
+        <item>@color/burnt</item>
+        <item>@color/lime</item>
+        <item>@color/pink</item>
+        <item>@color/armyGreen</item>
+        <item>@color/lightBlue</item>
+        <item>@color/fusia</item>
+    </integer-array>
 </resources>

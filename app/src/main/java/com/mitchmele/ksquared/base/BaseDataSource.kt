@@ -1,6 +1,7 @@
 package com.mitchmele.ksquared.base
 
 import com.mitchmele.ksquared.algo_store.ResultData
+import com.mitchmele.ksquared.ui.NetworkClient
 import retrofit2.Response
 
 abstract class BaseDataSource : NetworkClient {
@@ -19,10 +20,4 @@ abstract class BaseDataSource : NetworkClient {
     override fun <T> showError(errorMessage: String): ResultData<T> {
         return ResultData.failure("Network call has failed for a following reason: $errorMessage")
     }
-}
-
-
-interface NetworkClient  {
-    suspend fun <T> getData(call: suspend () -> Response<T>): ResultData<T>
-    fun <T> showError(errorMessage: String): ResultData<T>
 }

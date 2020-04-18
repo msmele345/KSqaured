@@ -1,6 +1,8 @@
 package com.mitchmele.ksquared.ui
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,18 +13,19 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mitchmele.ksquared.R
 import com.mitchmele.ksquared.algo_store.ResultData
 import com.mitchmele.ksquared.algo_store.UIViewState
 import com.mitchmele.ksquared.model.Algorithm
+import com.mitchmele.ksquared.utils.GridUtils
 import com.mitchmele.ksquared.utils.KSquaredConstants.LIST_TAG
 import kotlinx.android.synthetic.main.error_view.*
 import kotlinx.android.synthetic.main.fragment_algo_list.*
 import kotlinx.android.synthetic.main.progress_spinner.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlin.random.Random
 
 class AlgorithmListFragment : Fragment() {
 
@@ -45,24 +48,15 @@ class AlgorithmListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         val view = inflater.inflate(R.layout.fragment_algo_list, container, false)
         retryButton = view.findViewById(R.id.error_retry_button)
-
-        algoRecyclerView = view.findViewById(R.id.algo_recycler_view)
-
-        algoRecyclerView.addItemDecoration(
-            DividerItemDecoration(context, LinearLayoutManager.VERTICAL)
-
-        )
         algoRecyclerView = view.findViewById(R.id.algo_recycler_view) as RecyclerView
-        algoRecyclerView.layoutManager = LinearLayoutManager(context)
+        //for dynamic when there is more data
+        val screenSpans = GridUtils.calculateNoOfColumns(requireContext(), 150.toFloat())
+        algoRecyclerView.layoutManager = GridLayoutManager(context, 2)
         algoRecyclerView.adapter = algorithmAdapter
 
-
-
         return view
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -72,14 +66,14 @@ class AlgorithmListFragment : Fragment() {
         algorithmViewModel.algorithmLiveDataRetro.observe(
             viewLifecycleOwner, Observer { algorithms ->
                 algorithms?.let { data ->
-                    when(data) {
+                    when (data) {
                         is ResultData.Success -> {
                             Log.d(LIST_TAG, "Got ${data.value.size} Algorithms")
                             updateUI(data.value)
                         }
                         is ResultData.Failure -> {
-                               setViewState(UIViewState.UIError)
-                                   .also { Log.d(LIST_TAG, "ERROR: ${data.errorMessage}")}
+                            setViewState(UIViewState.UIError)
+                                .also { Log.d(LIST_TAG, "ERROR: ${data.errorMessage}") }
                         }
                     }
                 }
@@ -89,24 +83,14 @@ class AlgorithmListFragment : Fragment() {
 
     private fun updateUI(algorithms: List<Algorithm>) {
         setViewState(UIViewState.UISuccess)
-        //create adapter
-        //set adapter
-        //set layoutManager
         algorithmAdapter = AlgorithmAdapter(algorithms)
         algoRecyclerView.adapter = algorithmAdapter
     }
 
-    private inner class AlgorithmHolder(view: View) : RecyclerView.ViewHolder(view),
-        View.OnClickListener {
+    private inner class AlgorithmHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
         private lateinit var algorithm: Algorithm
-
         private val algorithmName: TextView = itemView.findViewById(R.id.algorithm_name)
-        private val algorithmCodeSnippet: TextView =
-            itemView.findViewById(R.id.algorithm_code_snippet)
-        private val algorithmDescription: TextView =
-            itemView.findViewById(R.id.algorithm_description)
-        private val isSolvedImage: ImageView = itemView.findViewById(R.id.algorithm_difficulty)
-
+        private val algoImage: ImageView = itemView.findViewById(R.id.algo_icon)
 
         init {
             itemView.setOnClickListener(this)
@@ -114,15 +98,38 @@ class AlgorithmListFragment : Fragment() {
 
         fun bind(algorithm: Algorithm) {
             this.algorithm = algorithm
-            algorithmName.text = algorithm.name
-            algorithmCodeSnippet.text = algorithm.codeSnippet
-            algorithmDescription.text = algorithm.categoryDescription
-            isSolvedImage.visibility = if (algorithm.solved) View.VISIBLE else View.GONE
+            //text color
+            algorithmName.apply { text = algorithm.name ; setTextColor(Color.WHITE)  }
+            //background color
+            algoImage.setBackgroundColor(fetchRandomColor())
+            //image
+            val gridImages = fetchGridDrawables()
+            val randomGridImage = gridImages[Random.nextInt(gridImages.size)]
+            algoImage.setImageDrawable(randomGridImage)
         }
 
         override fun onClick(v: View?) {
             callBacks?.onAlgorithmSelected(algorithm.name)
         }
+    }
+
+    private fun fetchRandomColor(): Int {
+        val colors = resources.getIntArray(R.array.androidcolors)
+        return colors[Random.nextInt(colors.size)]
+    }
+
+    private fun fetchGridDrawables(): MutableList<Drawable> {
+        val bookImage = resources.getDrawable(R.drawable.ic_book_2)
+        val brainImage = resources.getDrawable(R.drawable.ic_brain_2)
+        val equationImage = resources.getDrawable(R.drawable.ic_equation)
+        val lightBrain = resources.getDrawable(R.drawable.ic_brain_3)
+        return mutableListOf<Drawable>()
+            .apply {
+                add(bookImage)
+                add(brainImage)
+                add(equationImage)
+                add(lightBrain)
+            }
     }
 
     private inner class AlgorithmAdapter(var algorithms: List<Algorithm>) :
@@ -139,7 +146,6 @@ class AlgorithmListFragment : Fragment() {
             val algorithm = algorithms[position]
             holder.bind(algorithm)
         }
-
     }
 
     private fun setViewState(uiViewState: UIViewState) {
@@ -154,16 +160,16 @@ class AlgorithmListFragment : Fragment() {
                 progress_spinner.visibility = View.GONE
                 algo_recycler_view.visibility = View.VISIBLE
             }
-            is UIViewState.UIError -> { default_error_view.visibility = View.VISIBLE } }
+            is UIViewState.UIError -> {
+                default_error_view.visibility = View.VISIBLE
+            }
+        }
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         callBacks = context as CallBacks?
     }
-
-
-
 
     override fun onDetach() {
         super.onDetach()

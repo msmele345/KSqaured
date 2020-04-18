@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import com.mitchmele.ksquared.R
 import com.mitchmele.ksquared.algo_store.ResultData
 import com.mitchmele.ksquared.algo_store.UIViewState
@@ -23,11 +22,7 @@ class AlgorithmDetailFragment : Fragment() {
 
     private lateinit var algorithm: Algorithm
 
-    var algorithmNameId: String? = null
-
-//    private val algorithmDetailViewModel: AlgorithmDetailViewModel by lazy {
-//        ViewModelProviders.of(this).get(AlgorithmDetailViewModel::class.java)
-//    }
+    private var algorithmNameId: String? = null
 
     private val algorithmDetailViewModel: AlgorithmDetailViewModel
             by viewModel()

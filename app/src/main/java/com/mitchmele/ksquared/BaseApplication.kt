@@ -2,16 +2,12 @@ package com.mitchmele.ksquared
 
 import android.app.Application
 import com.mitchmele.ksquared.repository.network.AlgorithmApi
-import com.mitchmele.ksquared.repository.network.AlgorithmKoinServiceApi
-import com.mitchmele.ksquared.repository.network.AlgorithmRepository
 import com.mitchmele.ksquared.ui.AlgorithmDetailViewModel
 import com.mitchmele.ksquared.ui.AlgorithmViewModel
-import com.squareup.moshi.Moshi
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.core.context.GlobalContext.get
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -33,9 +29,7 @@ class BaseApplication : Application() {
         single { providesApiService(get()) } //dependencies don't have to be in same module
     }
 
-
     val retroFitModule = module {
-
         fun provideMoshi(): MoshiConverterFactory {
             return MoshiConverterFactory.create()
         }
@@ -64,7 +58,6 @@ class BaseApplication : Application() {
 
     }
 
-
     override fun onCreate() {
         super.onCreate()
 
@@ -72,7 +65,6 @@ class BaseApplication : Application() {
             androidLogger()
             androidContext(this@BaseApplication)
             modules(listOf(listOfModules, apiModule, retroFitModule))
-//            modules(listOfModules)
         }
     }
 }

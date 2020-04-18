@@ -2,18 +2,16 @@ package com.mitchmele.ksquared.repository.network
 
 import com.mitchmele.ksquared.model.Algorithm
 import com.mitchmele.ksquared.utils.KSquaredConstants.BASE_URL
+import com.mitchmele.ksquared.utils.KSquaredConstants.NAME_URL
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface AlgorithmApi {
 
-    @GET("http://localhost:8080/algorithms/all/")
-    suspend fun getAlgorithms() : List<Algorithm>
-
     @GET(BASE_URL)
     suspend fun getResponseAlgorithms() : Response<List<Algorithm>>
 
-    @GET("http://10.0.2.2:8080/algorithms/{name}/")
+    @GET(NAME_URL)
     suspend fun getAlgorithmByName(@Path("name")name: String): Response<Algorithm>
 }
