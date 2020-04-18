@@ -2,6 +2,7 @@ package com.mitchmele.ksquared
 
 import android.app.Application
 import com.mitchmele.ksquared.repository.network.AlgorithmApi
+import com.mitchmele.ksquared.repository.network.AlgorithmRepository
 import com.mitchmele.ksquared.ui.AlgorithmDetailViewModel
 import com.mitchmele.ksquared.ui.AlgorithmViewModel
 import okhttp3.OkHttpClient
@@ -27,6 +28,10 @@ class BaseApplication : Application() {
                 .create(AlgorithmApi::class.java)
 
         single { providesApiService(get()) } //dependencies don't have to be in same module
+    }
+
+    val repositoryModule = module {
+        factory { AlgorithmRepository(get()) }
     }
 
     val retroFitModule = module {
@@ -64,7 +69,7 @@ class BaseApplication : Application() {
         startKoin {
             androidLogger()
             androidContext(this@BaseApplication)
-            modules(listOf(listOfModules, apiModule, retroFitModule))
+            modules(listOf(listOfModules, apiModule, retroFitModule, repositoryModule))
         }
     }
 }
